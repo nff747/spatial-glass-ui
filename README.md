@@ -1,5 +1,8 @@
 <div align="center">
 
+<img src="assets/banner.jpg" width="800" alt="Project Banner">
+
+
 # 🪞 spatial-glass-ui
 
 **Hardware-Accelerated Zero-DOM Spatial Interfaces**

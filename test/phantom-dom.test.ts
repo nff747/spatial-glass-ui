@@ -13,10 +13,17 @@ describe('PhantomDOM', () => {
     phantom.cleanup();
   });
 
-  it('creates an invisible container', () => {
-    const container = document.getElementById('phantom-dom-container');
-    expect(container).not.toBeNull();
-    expect(container?.style.position).toBe('absolute');
+  it('creates an invisible container with proper positioning for overlay and offscreen modes', () => {
+    const overlayContainer = document.getElementById('phantom-dom-container');
+    expect(overlayContainer).not.toBeNull();
+    expect(overlayContainer?.style.position).toBe('fixed');
+
+    // Test pure WCAG offscreen screen-reader mode
+    const offscreenPhantom = new PhantomDOM('offscreen-container', false);
+    const offscreenContainer = document.getElementById('offscreen-container');
+    expect(offscreenContainer).not.toBeNull();
+    expect(offscreenContainer?.style.position).toBe('absolute');
+    offscreenPhantom.cleanup();
   });
 
   it('adds an element with correct attributes', () => {

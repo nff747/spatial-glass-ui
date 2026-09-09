@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spatial Glass UI - Demo</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #05070a;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        #ui-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="ui-canvas"></canvas>
+
+    <script type="module">
+        // In a real environment, this imports from unpkg or jsdelivr
+        // import { SpatialEngine } from 'https://unpkg.com/spatial-glass-ui@latest/dist/index.js';
+        import { SpatialEngine } from '../dist/index.js';
+
+        const canvas = document.getElementById('ui-canvas');
+        const engine = new SpatialEngine(canvas);
+
+        engine.addPanel({
+            x: -200, y: -150, z: 200,
+            width: 400, height: 300,
+            cornerRadius: 24.0,
+            tint: [0.05, 0.07, 0.1, 0.6],
+            refraction: 0.15,
+            chromaticAberration: 0.08,
+            roughness: 0.3
+        });
+
+        engine.addPanel({
+            x: 100, y: 50, z: 400,
+            width: 300, height: 200,
+            cornerRadius: 16.0,
+            tint: [0.0, 0.5, 1.0, 0.4],
+            refraction: 0.2,
+            chromaticAberration: 0.1,
+            roughness: 0.1
+        });
+
+        engine.start();
+    </script>
+</body>
+</html>

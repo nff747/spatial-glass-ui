@@ -59,6 +59,116 @@ Instead of div tags, we use hardware quads.
 
 ---
 
+## 🎨 Dashboard Mockup
+
+```text
+┌────────────────────────────────────────────────────────────┐
+│  ORBITAL NETWORKS / v2.4                                   │
+│                                                            │
+│  ┌──────────────────┐  ┌────────────────────────────────┐  │
+│  │ Analytics Nav    │  │ ┌──────────────┐ ┌───────────┐ │  │
+│  │                  │  │ │ Bandwidth    │ │ Latency   │ │  │
+│  │ [ Overview ]     │  │ │ 98.6 Gbps    │ │ 12 ms     │ │  │
+│  │                  │  │ └──────────────┘ └───────────┘ │  │
+│  │ [ Network ]      │  │                                │  │
+│  │                  │  │ ┌────────────────────────────┐ │  │
+│  │ [ Settings ]     │  │ │ Waveform Activity          │ │  │
+│  │                  │  │ │  /\      /\                │ │  │
+│  └──────────────────┘  │ │ /  \    /  \      /\       │ │  │
+│                        │ │/    \/\/    \____/  \      │ │  │
+│                        │ └────────────────────────────┘ │  │
+│                        └────────────────────────────────┘  │
+└────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🚀 Quick Start
+
+### 1. Installation
+
+```bash
+npm install spatial-glass-ui gl-matrix react react-dom
+```
+
+### 2. React JSX Usage
+
+```tsx
+import React from 'react';
+import { GlassProvider, GlassPanel, GlassCard, GlassButton, HoloChart } from 'spatial-glass-ui';
+
+export function Dashboard() {
+  return (
+    <GlassProvider className="dashboard-container">
+      <div style={{ display: 'flex', gap: '20px' }}>
+        <GlassPanel depth={50} cornerRadius={20}>
+          <GlassButton>Overview</GlassButton>
+          <GlassButton>Network</GlassButton>
+        </GlassPanel>
+        
+        <div>
+          <GlassCard depth={100}>
+            <h2>Bandwidth</h2>
+            <div>98.6 Gbps</div>
+          </GlassCard>
+          
+          <HoloChart depth={150}>
+            <h3>Waveform</h3>
+            {/* Chart SVG */}
+          </HoloChart>
+        </div>
+      </div>
+    </GlassProvider>
+  );
+}
+```
+
+---
+
+## 🧩 Component Gallery
+
+The `spatial-glass-ui` React wrapper exports several pre-configured UI components for immediate use:
+
+- **`GlassProvider`**: Initializes the `SpatialEngine` context and the WebGL canvas background.
+- **`GlassPanel`**: The base container with physical refraction, customizable depth, and dynamic edge lighting.
+- **`GlassCard`**: A preset with deeper Z-index and moderate blur/refraction, perfect for grouping content.
+- **`GlassButton`**: An interactive element with hover states translated into physical light interactions.
+- **`HoloChart`**: A preset styled with a subtle chromatic tint and high aberration for data visualizations.
+
+---
+
+## ⚙️ Customization
+
+Customize the look and feel using standard CSS variables (Custom Properties) that hook directly into the WebGL uniforms:
+
+```css
+.my-glass-element {
+  /* Controls the micro-bump roughness of the glass */
+  --glass-blur: 0.5;
+  
+  /* Controls the RGB channel splitting */
+  --glass-aberration: 0.15;
+  
+  /* The edge reflection glow color */
+  --border-glow-color: rgba(0, 255, 255, 0.8);
+}
+```
+
+---
+
+## ♿ Accessibility
+
+### Phantom DOM Mirroring
+
+Bypassing the DOM for rendering normally destroys accessibility. `spatial-glass-ui` solves this with the **Phantom DOM**. 
+
+For every glass component rendered in WebGL, an invisible, perfectly aligned DOM element is synced on top of it. This means:
+- Screen readers (VoiceOver, NVDA) can still read your content.
+- Keyboard navigation (Tab) works natively.
+- Interactive hitboxes are pixel-perfect and aligned with the rendered geometry.
+
+---
+
 ## Shader Mathematics
 
 The magic happens in `glass.frag.ts`. Here is how the physical properties are computed:
@@ -81,56 +191,6 @@ float fresnel = R0 + (1.0 - R0) * pow(1.0 - max(dot(N, V), 0.0), 5.0);
 
 ### 3. Dynamic Volumetric Lighting
 The cursor acts as a point light source in 3D space (`uLightPos`). The shader computes distance-based edge illumination and specular highlights, making the glass "glow" as the cursor hovers near it.
-
----
-
-## API Usage
-
-### 1. Installation
-
-```bash
-npm install spatial-glass-ui gl-matrix
-```
-
-### 2. Initialization
-
-```typescript
-import { SpatialEngine } from 'spatial-glass-ui';
-
-// Initialize on a full-screen canvas
-const canvas = document.getElementById('ui-canvas') as HTMLCanvasElement;
-const engine = new SpatialEngine(canvas);
-
-// Add a floating glass panel
-engine.addPanel({
-  x: 0, y: 0, z: 200,            // 3D position
-  width: 400, height: 600,       // Dimensions
-  cornerRadius: 24.0,            // SDF Border radius
-  tint: [0.05, 0.07, 0.1, 0.6],  // Dark glass tint (RGBA)
-  refraction: 0.15,              // Refraction intensity
-  chromaticAberration: 0.08,     // RGB split intensity
-  roughness: 0.3                 // Micro-bump blur amount
-});
-
-// Add another panel in front of it
-engine.addPanel({
-  x: -100, y: 50, z: 400,
-  width: 300, height: 200,
-  cornerRadius: 16.0,
-  tint: [0.9, 0.0, 0.3, 0.4],    // Crimson tint
-  refraction: 0.2,
-  chromaticAberration: 0.1,
-  roughness: 0.1
-});
-
-// Start the render loop & sensor tracking
-engine.start();
-```
-
-### 3. Hardware Sensors
-The engine automatically instantiates `ParallaxTracker`. 
-- **Desktop:** Tracks mouse normalized device coordinates to tilt the camera and move the volumetric light.
-- **Mobile:** Automatically hooks into `DeviceOrientationEvent` (Gyroscope) to tilt the UI panels based on the physical device angle.
 
 ---
 

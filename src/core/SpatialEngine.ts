@@ -28,14 +28,14 @@ export class SpatialEngine {
   private tracker: ParallaxTracker;
   
   // Render Targets
-  private backgroundFBO: WebGLFramebuffer;
-  private backgroundTexture: WebGLTexture;
+  private backgroundFBO!: WebGLFramebuffer;
+  private backgroundTexture!: WebGLTexture;
   
   // Shader Program
-  private glassProgram: WebGLProgram;
+  private glassProgram!: WebGLProgram;
   
   // Geometry (Shared Quad)
-  private vao: WebGLVertexArrayObject;
+  private vao!: WebGLVertexArrayObject;
   
   // UI Elements
   private panels: GlassPanelConfig[] = [];

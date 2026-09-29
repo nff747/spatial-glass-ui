@@ -36,6 +36,8 @@ export class SpatialEngine {
   
   // Geometry (Shared Quad)
   private vao!: WebGLVertexArrayObject;
+  private vbo!: WebGLBuffer;
+  private animFrameId: number | null = null;
   
   // UI Elements
   private panels: GlassPanelConfig[] = [];
@@ -132,7 +134,8 @@ export class SpatialEngine {
        0.5, -0.5, 0.0,  1.0, 0.0,  0.0, 0.0, 1.0,
     ]);
 
-    const vbo = gl.createBuffer();
+    const vbo = gl.createBuffer()!;
+    this.vbo = vbo;
     gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
     gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 
@@ -152,14 +155,30 @@ export class SpatialEngine {
   }
 
   public start() {
+    if (this.isRunning) return;
     this.tracker.start();
     this.isRunning = true;
-    requestAnimationFrame(this.renderLoop);
+    this.animFrameId = requestAnimationFrame(this.renderLoop);
   }
 
   public stop() {
-    this.tracker.stop();
     this.isRunning = false;
+    if (this.animFrameId !== null) {
+      cancelAnimationFrame(this.animFrameId);
+      this.animFrameId = null;
+    }
+    this.tracker.stop();
+  }
+
+  public dispose() {
+    this.stop();
+    window.removeEventListener('resize', this.onResize);
+    const gl = this.gl;
+    if (this.backgroundFBO) gl.deleteFramebuffer(this.backgroundFBO);
+    if (this.backgroundTexture) gl.deleteTexture(this.backgroundTexture);
+    if (this.glassProgram) gl.deleteProgram(this.glassProgram);
+    if (this.vao) gl.deleteVertexArray(this.vao);
+    if (this.vbo) gl.deleteBuffer(this.vbo);
   }
 
   private renderLoop = () => {
@@ -232,6 +251,8 @@ export class SpatialEngine {
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     }
 
-    requestAnimationFrame(this.renderLoop);
+    if (this.isRunning) {
+      this.animFrameId = requestAnimationFrame(this.renderLoop);
+    }
   };
 }

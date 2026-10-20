@@ -3,3 +3,4 @@ export * from './core/SpatialEngine';
 export * from './sensors/ParallaxTracker';
 export * from './react';
 export * from './color';
+export * from './matrix';

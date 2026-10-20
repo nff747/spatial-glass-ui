@@ -110,6 +110,22 @@ export class PhantomDOM {
     }
   }
 
+  getElement(id: string): HTMLElement | undefined {
+    return this.elementMap.get(id);
+  }
+
+  hasElement(id: string): boolean {
+    return this.elementMap.has(id);
+  }
+
+  getElementCount(): number {
+    return this.elementMap.size;
+  }
+
+  getAllIds(): string[] {
+    return Array.from(this.elementMap.keys());
+  }
+
   cleanup() {
     this.container.remove();
     this.elementMap.clear();

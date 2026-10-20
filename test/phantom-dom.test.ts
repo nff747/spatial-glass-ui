@@ -49,4 +49,20 @@ describe('PhantomDOM', () => {
     phantom.removeElement('btn-2');
     expect(document.getElementById('phantom-btn-2')).toBeNull();
   });
+
+  it('provides element lookup, existence checks, and count metrics', () => {
+    expect(phantom.getElementCount()).toBe(0);
+    phantom.addElement('toggle-1', 'checkbox', 'Enable VR');
+    phantom.addElement('link-1', 'link', 'Documentation');
+
+    expect(phantom.getElementCount()).toBe(2);
+    expect(phantom.hasElement('toggle-1')).toBe(true);
+    expect(phantom.hasElement('missing')).toBe(false);
+
+    const el = phantom.getElement('toggle-1');
+    expect(el).toBeDefined();
+    expect(el?.getAttribute('role')).toBe('checkbox');
+
+    expect(phantom.getAllIds()).toEqual(['toggle-1', 'link-1']);
+  });
 });

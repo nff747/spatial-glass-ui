@@ -4,3 +4,4 @@ export * from './sensors/ParallaxTracker';
 export * from './react';
 export * from './color';
 export * from './matrix';
+export * from './layout';

@@ -42,9 +42,20 @@ export class SpatialEngine {
   // UI Elements
   private panels: GlassPanelConfig[] = [];
   
+  // Custom Background Renderer Hook
+  private backgroundRenderer: ((gl: WebGL2RenderingContext, timeSeconds: number) => void) | null = null;
+
   // State
   private isRunning = false;
   private startTime = Date.now();
+
+  /**
+   * Registers a custom 3D background rendering callback executed during Pass 1.
+   */
+  public setBackgroundRenderer(callback: ((gl: WebGL2RenderingContext, timeSeconds: number) => void) | null): void {
+    this.backgroundRenderer = callback;
+  }
+
 
   constructor(canvas: HTMLCanvasElement) {
     const gl = canvas.getContext('webgl2', { antialias: true, alpha: false });
@@ -187,12 +198,19 @@ export class SpatialEngine {
     this.tracker.update();
 
     // ── PASS 1: Render Background ──
-    // In a full application, you would render your 3D scene (particles, abstract models) here.
-    // For scaffolding, we clear to a dark color to represent the void.
     gl.bindFramebuffer(gl.FRAMEBUFFER, this.backgroundFBO);
     gl.clearColor(0.02, 0.03, 0.05, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    // TODO: Client hooks into here to render their custom 3D background
+    
+    // Invoke custom 3D background renderer if registered
+    if (this.backgroundRenderer) {
+      try {
+        const timeSeconds = (Date.now() - this.startTime) / 1000.0;
+        this.backgroundRenderer(gl, timeSeconds);
+      } catch (err) {
+        console.error('Error in custom background renderer:', err);
+      }
+    }
     
     // ── PASS 2: Render Glass UI Panels ──
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);

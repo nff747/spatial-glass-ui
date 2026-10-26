@@ -65,3 +65,21 @@ export function intersectRayPlane(ray: Ray3D, plane: SpatialPlane): RaycastHit |
     uv: [u, v]
   };
 }
+
+/**
+ * Computes normalized 3D gaze ray from eye origin and look-at target vector.
+ */
+export function computeGazeRay(
+  eyePosition: [number, number, number],
+  gazeTarget: [number, number, number]
+): Ray3D {
+  const dx = gazeTarget[0] - eyePosition[0];
+  const dy = gazeTarget[1] - eyePosition[1];
+  const dz = gazeTarget[2] - eyePosition[2];
+  const len = Math.hypot(dx, dy, dz);
+  const invLen = len > 1e-6 ? 1.0 / len : 0.0;
+  return {
+    origin: [eyePosition[0], eyePosition[1], eyePosition[2]],
+    direction: [dx * invLen, dy * invLen, dz * invLen]
+  };
+}

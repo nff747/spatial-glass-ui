@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { intersectRayPlane, Ray3D, SpatialPlane } from '../src/raycast';
+import { intersectRayPlane, computeGazeRay, Ray3D, SpatialPlane } from '../src/raycast';
 
 describe('Spatial UI 3D Raycasting', () => {
   const panel: SpatialPlane = {
@@ -22,6 +22,17 @@ describe('Spatial UI 3D Raycasting', () => {
     expect(hit!.point).toEqual([0, 0, 0]);
     expect(hit!.uv[0]).toBeCloseTo(0.5); // Center UV
     expect(hit!.uv[1]).toBeCloseTo(0.5);
+  });
+
+  it('generates normalized gaze ray and intersects panel', () => {
+    const eye: [number, number, number] = [0, 0, 10];
+    const target: [number, number, number] = [0, 0, 0];
+    const gaze = computeGazeRay(eye, target);
+
+    expect(gaze.direction[2]).toBeCloseTo(-1.0);
+    const hit = intersectRayPlane(gaze, panel);
+    expect(hit).not.toBeNull();
+    expect(hit!.distance).toBeCloseTo(10.0);
   });
 
   it('returns null when ray misses panel boundaries', () => {

@@ -7,7 +7,6 @@
 
 **Hardware-Accelerated Zero-DOM Spatial Interfaces**
 
-[![Powered by nff747](https://img.shields.io/badge/Powered%20by-nff747-111111?style=for-the-badge&logo=github&logoColor=white)](https://github.com/nff747)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6.svg?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![WebGL2](https://img.shields.io/badge/WebGL_2.0-000000.svg?style=for-the-badge&logo=webgl&logoColor=white)]()

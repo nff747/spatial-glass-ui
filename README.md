@@ -5,6 +5,8 @@
 
 # 🪞 spatial-glass-ui
 
+[![Lunar Paradox](https://img.shields.io/badge/Organization-Lunar_Paradox-0a0e1a?style=for-the-badge&logo=probot&logoColor=d7b886)](https://lunarparadox.com)
+
 **Hardware-Accelerated Zero-DOM Spatial Interfaces**
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
@@ -196,3 +198,7 @@ The cursor acts as a point light source in 3D space (`uLightPos`). The shader co
 ## 📄 License
 
 Apache 2.0 © [nff747](https://github.com/nff747)
+
+---
+
+*A component of the [Lunar Paradox](https://lunarparadox.com) applied systems & graphics laboratory. Engineered by nff747.*

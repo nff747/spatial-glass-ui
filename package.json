@@ -33,7 +33,7 @@
     "shaders",
     "glsl"
   ],
-  "author": "nff747 <nff747@users.noreply.github.com>",
+  "author": "Lunar Paradox <engineering@lunarparadox.com>",
   "license": "Apache-2.0",
   "dependencies": {
     "gl-matrix": "^3.4.3"
@@ -56,5 +56,5 @@
   "bugs": {
     "url": "https://github.com/nff747/spatial-glass-ui/issues"
   },
-  "homepage": "https://github.com/nff747/spatial-glass-ui#readme"
+  "homepage": "https://lunarparadox.com"
 }

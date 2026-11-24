@@ -33,7 +33,7 @@
     "shaders",
     "glsl"
   ],
-  "author": "Lunar Paradox <hello@lunarparadox.com>",
+  "author": "Lunar Paradox",
   "license": "Apache-2.0",
   "dependencies": {
     "gl-matrix": "^3.4.3"
